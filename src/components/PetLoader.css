@@ -1,0 +1,147 @@
+.pet-loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  transition: background 0.3s;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pet-loader-container {
+    background: #111;
+  }
+}
+
+.paw-animation {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.paw {
+  width: 48px;
+  height: 48px;
+  background: #222;
+  border-radius: 50% 50% 40% 40%;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  animation: paw-bounce 1.2s infinite;
+  transition: background 0.3s;
+}
+
+@media (prefers-color-scheme: dark) {
+  .paw {
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(255,255,255,0.10);
+  }
+}
+
+.paw1 { animation-delay: 0s; }
+.paw2 { animation-delay: 0.2s; }
+.paw3 { animation-delay: 0.4s; }
+.paw4 { animation-delay: 0.6s; }
+
+.paw::before, .paw::after {
+  content: '';
+  position: absolute;
+  background: #444;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+.paw::before {
+  width: 18px;
+  height: 18px;
+  left: 5px;
+  top: -16px;
+}
+.paw::after {
+  width: 14px;
+  height: 14px;
+  right: 5px;
+  top: -12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .paw::before, .paw::after {
+    background: #eee;
+  }
+}
+
+.paw .toe1, .paw .toe2, .paw .toe3 {
+  position: absolute;
+  background: #444;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+.paw .toe1 {
+  width: 12px;
+  height: 12px;
+  left: 2px;
+  top: -10px;
+}
+.paw .toe2 {
+  width: 10px;
+  height: 10px;
+  left: 18px;
+  top: -18px;
+}
+.paw .toe3 {
+  width: 10px;
+  height: 10px;
+  right: 2px;
+  top: -10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .paw .toe1, .paw .toe2, .paw .toe3 {
+    background: #eee;
+  }
+}
+
+@keyframes paw-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-24px) scale(1.1); }
+}
+
+.pet-loader-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 50%;
+  margin-bottom: 3.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  background: #fff;
+  border: 2px solid #222;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pet-loader-logo {
+    background: #111;
+    border: 2px solid #fff;
+  }
+}
+
+.pet-loader-text {
+  font-family: 'Pacifico', cursive, sans-serif;
+  font-size: 2rem;
+  color: #222;
+  letter-spacing: 2px;
+  text-shadow: none;
+  transition: color 0.3s;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pet-loader-text {
+    color: #fff;
+  }
+} 
