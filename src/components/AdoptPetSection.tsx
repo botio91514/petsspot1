@@ -6,6 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const pets = [
   {
@@ -55,12 +61,62 @@ const pets = [
     image: "https://images.unsplash.com/photo-1551717743-49959800b1f6?w=400&h=400&fit=crop",
     personality: ["Smart", "Gentle", "Family-friendly"],
     description: "Charlie is a wonderful family dog who's great with kids and very well-trained."
+  },
+  // Dummy pets
+  {
+    id: 5,
+    name: "Milo",
+    type: "Dog",
+    breed: "Beagle",
+    age: "2 years",
+    size: "Medium",
+    location: "Austin, TX",
+    image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=400&fit=crop",
+    personality: ["Curious", "Active", "Loyal"],
+    description: "Milo is a curious beagle who loves to sniff and explore new places."
+  },
+  {
+    id: 6,
+    name: "Daisy",
+    type: "Cat",
+    breed: "Siamese",
+    age: "3 years",
+    size: "Small",
+    location: "Seattle, WA",
+    image: "https://images.unsplash.com/photo-1518715308788-3005759c61d3?w=400&h=400&fit=crop",
+    personality: ["Vocal", "Affectionate", "Playful"],
+    description: "Daisy is a talkative Siamese who loves attention and playtime."
+  },
+  {
+    id: 7,
+    name: "Rocky",
+    type: "Dog",
+    breed: "Boxer",
+    age: "5 years",
+    size: "Large",
+    location: "Denver, CO",
+    image: "https://images.unsplash.com/photo-1605641781021-7c4a86d10af6?w=400&h=400&fit=crop",
+    personality: ["Protective", "Energetic", "Friendly"],
+    description: "Rocky is a strong and friendly boxer who loves to play fetch."
+  },
+  {
+    id: 8,
+    name: "Coco",
+    type: "Cat",
+    breed: "Bengal",
+    age: "2 years",
+    size: "Medium",
+    location: "Miami, FL",
+    image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=400&fit=crop",
+    personality: ["Adventurous", "Smart", "Active"],
+    description: "Coco is an adventurous Bengal cat who loves to climb and explore."
   }
 ];
 
 export const AdoptPetSection = () => {
   const [hoveredPet, setHoveredPet] = useState<number | null>(null);
   const [likedPets, setLikedPets] = useState<Set<number>>(new Set());
+  const navigate = useNavigate();
 
   const toggleLike = (petId: number) => {
     const newLikedPets = new Set(likedPets);
@@ -73,214 +129,69 @@ export const AdoptPetSection = () => {
   };
 
   return (
-    <section id="adopt" className="py-20 bg-white/50 dark:bg-gray-900/50">
-      <div className="container mx-auto px-4">
+    <section id="adopt" className="py-12 sm:py-20 bg-white/50 dark:bg-gray-900/50">
+      <div className="container mx-auto px-2 sm:px-4">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-16"
         >
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6">
             <span className="bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
-              Adopt a Pet
+              Meet Our Pets
             </span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Find your perfect companion with our AI-powered matching system. 
+          <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl sm:max-w-3xl mx-auto">
+            They’re not just pets — they’re family waiting to happen . 
             Every pet deserves a loving home, and every home deserves the perfect pet.
           </p>
         </motion.div>
-
-        {/* Search and Filter Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="bg-white dark:bg-gray-800 rounded-2xl p-6 mb-12 shadow-lg"
+        {/* Pet Cards Carousel */}
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          spaceBetween={24}
+          slidesPerView={1}
+          breakpoints={{
+            640: { slidesPerView: 2 },
+            900: { slidesPerView: 3 },
+            1200: { slidesPerView: 4 }
+          }}
+          navigation
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          className="w-full pb-8"
         >
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-              <Input
-                placeholder="Search by name or breed..."
-                className="pl-10 cursor-hover"
-              />
-            </div>
-            <Select>
-              <SelectTrigger className="cursor-hover">
-                <SelectValue placeholder="Pet Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="dog">Dogs</SelectItem>
-                <SelectItem value="cat">Cats</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select>
-              <SelectTrigger className="cursor-hover">
-                <SelectValue placeholder="Age" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Ages</SelectItem>
-                <SelectItem value="puppy">Puppy/Kitten</SelectItem>
-                <SelectItem value="young">Young</SelectItem>
-                <SelectItem value="adult">Adult</SelectItem>
-                <SelectItem value="senior">Senior</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select>
-              <SelectTrigger className="cursor-hover">
-                <SelectValue placeholder="Size" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Sizes</SelectItem>
-                <SelectItem value="small">Small</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="large">Large</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </motion.div>
-
-        {/* Pet Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {pets.map((pet, index) => (
-            <motion.div
-              key={pet.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-              onHoverStart={() => setHoveredPet(pet.id)}
-              onHoverEnd={() => setHoveredPet(null)}
-              className="cursor-hover"
-            >
-              <Card className="overflow-hidden bg-white dark:bg-gray-800 border-2 border-transparent hover:border-pink-300 dark:hover:border-purple-400 transition-all duration-300 shadow-lg hover:shadow-xl">
-                <div className="relative">
-                  <motion.img
-                    src={pet.image}
-                    alt={pet.name}
-                    className="w-full h-64 object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  
-                  {/* Floating paws on hover */}
-                  {hoveredPet === pet.id && (
-                    <div className="absolute inset-0 pointer-events-none">
-                      {Array.from({ length: 3 }).map((_, i) => (
-                        <motion.div
-                          key={i}
-                          className="absolute text-white/70"
-                          initial={{ 
-                            x: Math.random() * 200,
-                            y: Math.random() * 200,
-                            opacity: 0,
-                            scale: 0
-                          }}
-                          animate={{
-                            y: -50,
-                            opacity: [0, 1, 0],
-                            scale: [0, 1, 0]
-                          }}
-                          transition={{
-                            duration: 2,
-                            delay: i * 0.3,
-                            repeat: Infinity
-                          }}
-                        >
-                          <PawPrint size={16} />
-                        </motion.div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Like button */}
-                  <motion.button
-                    className="absolute top-4 right-4 p-2 bg-white/80 rounded-full shadow-lg cursor-hover"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => toggleLike(pet.id)}
-                  >
-                    <Heart
-                      className={`w-5 h-5 ${
-                        likedPets.has(pet.id)
-                          ? "text-pink-500 fill-pink-500"
-                          : "text-gray-500"
-                      }`}
-                    />
-                  </motion.button>
+          {pets.map((pet, idx) => (
+            <SwiperSlide key={pet.id} className="flex justify-center h-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.15 * idx }}
+                whileHover={{ scale: 1.05 }}
+                className="bg-white/90 dark:bg-gray-900/90 rounded-2xl shadow-lg p-4 sm:p-6 flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-pink-200/60 dark:hover:shadow-purple-900/60 w-full max-w-xs mx-auto"
+              >
+                <div className="relative w-24 h-24 sm:w-32 sm:h-32 mb-4 flex items-center justify-center">
+                  <img src={pet.image} alt={pet.name} className="w-full h-full object-cover rounded-2xl border-2 border-pink-100 dark:border-purple-900 bg-white/80 shadow" />
                 </div>
-
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-                      {pet.name}
-                    </h3>
-                    <Badge variant="secondary" className="bg-pink-100 text-pink-700 dark:bg-purple-900 dark:text-purple-300">
-                      {pet.type}
-                    </Badge>
-                  </div>
-
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center text-gray-600 dark:text-gray-300">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      <span>{pet.age}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600 dark:text-gray-300">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      <span>{pet.location}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {pet.personality.map((trait) => (
-                      <Badge
-                        key={trait}
-                        variant="outline"
-                        className="border-pink-300 text-pink-600 dark:border-purple-400 dark:text-purple-300"
-                      >
-                        {trait}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                    {pet.description}
-                  </p>
-
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button className="w-full cursor-hover bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white">
-                      <Heart className="w-4 h-4 mr-2" />
-                      Meet {pet.name}
-                    </Button>
-                  </motion.div>
-                </CardContent>
-              </Card>
-            </motion.div>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-1 text-center">{pet.name}</h3>
+                <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mb-2 text-center">{pet.breed} • {pet.age} • {pet.size}</div>
+                <div className="flex flex-wrap justify-center gap-1 mb-2">
+                  {pet.personality.map((trait) => (
+                    <span key={trait} className="px-2 py-1 rounded-full bg-pink-100 dark:bg-purple-900 text-pink-600 dark:text-pink-300 text-xs font-semibold">{trait}</span>
+                  ))}
+                </div>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 text-center mb-2">{pet.description}</p>
+                <Button
+                  className="w-full mt-auto px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-base sm:text-lg shadow hover:from-pink-600 hover:to-purple-700 transition-all duration-300"
+                >
+                  Inquire Now
+                </Button>
+              </motion.div>
+            </SwiperSlide>
           ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <Button
-            size="lg"
-            variant="outline"
-            className="cursor-hover border-2 border-pink-300 dark:border-purple-400 text-pink-600 dark:text-purple-300 hover:bg-pink-50 dark:hover:bg-purple-900/20 px-8 py-6 text-lg font-semibold rounded-full"
-          >
-            View All Pets
-          </Button>
-        </motion.div>
+        </Swiper>
       </div>
     </section>
   );

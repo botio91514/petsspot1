@@ -9,13 +9,16 @@ import { HeroSection } from "@/components/HeroSection";
 import { AdoptPetSection } from "@/components/AdoptPetSection";
 import { AccessoriesSection } from "@/components/AccessoriesSection";
 import { SuccessStoriesSection } from "@/components/SuccessStoriesSection";
-import { WhyAdoptSection } from "@/components/WhyAdoptSection";
-import { BlogSection } from "@/components/BlogSection";
+import { AboutUsSection } from "@/components/AboutUsSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Navbar } from "@/components/Navbar";
 import { FloatingPaws } from "@/components/FloatingPaws";
+import { Link } from "react-router-dom";
 
 const Index = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8]);
@@ -30,8 +33,8 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-purple-900 dark:via-blue-900 dark:to-black relative overflow-x-hidden">
-      <CustomCursor mousePosition={mousePosition} />
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-purple-900 dark:via-blue-900 dark:to-black relative overflow-x-hidden w-full">
+      <CustomCursor mousePosition={mousePosition} className="hidden sm:block" />
       <FloatingPaws />
       
       {/* Background particles */}
@@ -61,24 +64,16 @@ const Index = () => {
 
       <Navbar />
       
-      <main>
+      <main className="w-full px-2 sm:px-4">
         <HeroSection />
         <AdoptPetSection />
         <AccessoriesSection />
         <SuccessStoriesSection />
-        <WhyAdoptSection />
-        <BlogSection />
+        <AboutUsSection />
         <ContactSection />
       </main>
 
       {/* Global floating elements */}
-      <motion.div
-        className="fixed bottom-8 right-8 z-50"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <ThemeToggle />
-      </motion.div>
     </div>
   );
 };
